@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'codemanas/woo-preview-emails',
-        'pretty_version' => '2.2.14',
-        'version' => '2.2.14.0',
-        'reference' => 'b9c92633ff895209bd98dd53298ea492143ed969',
+        'pretty_version' => '2.2.15',
+        'version' => '2.2.15.0',
+        'reference' => 'aef14cf599541001564dda6b59b01fca2cbc7ba5',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'codemanas/woo-preview-emails' => array(
-            'pretty_version' => '2.2.14',
-            'version' => '2.2.14.0',
-            'reference' => 'b9c92633ff895209bd98dd53298ea492143ed969',
+            'pretty_version' => '2.2.15',
+            'version' => '2.2.15.0',
+            'reference' => 'aef14cf599541001564dda6b59b01fca2cbc7ba5',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
