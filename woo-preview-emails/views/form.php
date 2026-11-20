@@ -1,9 +1,17 @@
 <?php
-extract( $args );
-$args = [
+/** @var array $args */
+
+defined( 'ABSPATH' ) || exit;
+
+$emails       = $args['emails'];
+$orderID      = $args['orderID'];
+$recipient    = $args['recipient'];
+$choose_email = $args['choose_email'];
+$email_type   = $args['email_type'];
+$args         = [
 	'posts_per_page' => 10,
 ];
-$type = wc_get_order_types( 'view-orders' );
+$type         = wc_get_order_types( 'view-orders' );
 if ( is_array( $type ) ) {
 	$type         = array_diff( $type, [ 'shop_order_refund' ] );
 	$args['type'] = $type;
@@ -15,29 +23,29 @@ $orders = wc_get_orders( $args );
 	<?php wp_nonce_field( 'woocommerce_preview_email', 'preview_email' ); ?>
     <div class="cm-woo-preview-emails-form">
         <div class="cm-woo-preview-emails-form__input-wrapper">
-            <div class="cm-woo-preview-emails-form__label"><label for="choose_email"><?php _e( 'Choose Email', 'woo-preview-emails' ); ?></label></div>
+            <div class="cm-woo-preview-emails-form__label"><label for="choose_email"><?php esc_html_e( 'Choose Email', 'woo-preview-emails' ); ?></label></div>
             <div class="cm-woo-preview-emails-form__input-field">
                 <select id="choose_email" name="choose_email" class="regular-text">
-                    <option value=""><?php _e( 'Choose Email', 'woo-preview-emails' ); ?></option>
+                    <option value=""><?php esc_html_e( 'Choose Email', 'woo-preview-emails' ); ?></option>
 					<?php foreach ( $emails as $index => $email ): ?>
-                        <option value="<?php echo $index ?>" <?php selected( $index, $choose_email ); ?>><?php echo $email->title; ?></option>
+                        <option value="<?php echo esc_attr( $index ); ?>" <?php selected( $index, $choose_email ); ?>><?php echo esc_html( $email->title ); ?> - <?php echo esc_html( $email->is_customer_email() ? 'customer' : 'admin' ); ?></option>
 					<?php endforeach; ?>
                 </select>
             </div>
         </div>
         <div class="cm-woo-preview-emails-form__input-wrapper">
             <div class="cm-woo-preview-emails-form__label">
-                <label for="orderID"><?php _e( 'Choose Order', 'woo-preview-emails' ); ?></label>
+                <label for="orderID"><?php esc_html_e( 'Choose Order', 'woo-preview-emails' ); ?></label>
             </div>
             <div class="cm-woo-preview-emails-form__input-field">
 				<?php if ( ! empty( $orders ) ): ?>
                     <select name="orderID" id="orderID" class="regular-text">
-                        <option value=""><?php _e( 'Choose Order', 'woo-preview-emails' ); ?></option>
+                        <option value=""><?php esc_html_e( 'Choose Order', 'woo-preview-emails' ); ?></option>
 						<?php
 						foreach ( $orders as $order ) {
 							$order_id = $order->get_id()
 							?>
-                            <option value="<?php echo $order_id ?>" <?php selected( $order_id, $orderID ); ?> >#order : <?php echo $order_id; ?></option>
+                            <option value="<?php echo esc_attr( $order_id ); ?>" <?php selected( $order_id, $orderID ); ?> >#order : <?php echo esc_html( $order_id ); ?></option>
 						<?php } ?>
                     </select>
 				<?php else: ?>
@@ -47,28 +55,28 @@ $orders = wc_get_orders( $args );
         </div>
         <div class="cm-woo-preview-emails-form__input-wrapper">
             <div class="cm-woo-preview-emails-form__label">
-                <label for="woo_preview_search_orders"><?php _e( 'Search Orders', 'woo-preview-emails' ); ?></label>
+                <label for="woo_preview_search_orders"><?php esc_html_e( 'Search Orders', 'woo-preview-emails' ); ?></label>
             </div>
             <div class="cm-woo-preview-emails-form__input-field">
-                <select name="search_order" id="woo_preview_search_orders" class="regular-text" class="regular-text">
+                <select name="search_order" id="woo_preview_search_orders" class="regular-text">
 					<?php
 					if ( ! empty( $_POST['search_order'] ) ) {
 						?>
-                        <option value="<?php echo esc_attr( $_POST['search_order'] ); ?>" selected="selected">#order : <?php echo esc_attr( $_POST['search_order'] ); ?></option>
+                        <option value="<?php echo esc_attr( wp_unslash( $_POST['search_order'] ) ); ?>" selected="selected">#order : <?php echo esc_html( wp_unslash( $_POST['search_order'] ) ); ?></option>
 						<?php
 					}
 					?>
-                    <option value=""><?php _e( 'Search Orders', 'woo-preview-emails' ); ?></option>
+                    <option value=""><?php esc_html_e( 'Search Orders', 'woo-preview-emails' ); ?></option>
                 </select>
             </div>
             <span class="description">
-		        <?php _e( 'Only use this field if you have particular orders, that are not listed above in the Choose Order Field. Type the Order ID only. Example: 90', 'woo-preview-emails' ); ?>
+		        <?php esc_html_e( 'Only use this field if you have particular orders, that are not listed above in the Choose Order Field. Type the Order ID only. Example: 90', 'woo-preview-emails' ); ?>
             </span>
         </div>
         <div class="cm-woo-preview-emails-form__input-wrapper">
             <div class="cm-woo-preview-emails-form__label">
                 <label for="email">
-					<?php _e( 'Mail to', 'woo-preview-emails' ); ?>
+					<?php esc_html_e( 'Mail to', 'woo-preview-emails' ); ?>
                 </label>
             </div>
             <div class="cm-woo-preview-emails-form__input-field cm-woo-preview-emails-form__input-field--select-mail">
@@ -77,7 +85,7 @@ $orders = wc_get_orders( $args );
             </div>
         </div>
         <div class="cm-woo-preview-emails-form__input-wrapper">
-            <div class="cm-woo-preview-emails-form__label"><label for="email_type"><?php _e( 'Email Type', 'woo-preview-emails' ); ?></label>
+            <div class="cm-woo-preview-emails-form__label"><label for="email_type"><?php esc_html_e( 'Email Type', 'woo-preview-emails' ); ?></label>
             </div>
             <div class="cm-woo-preview-emails-form__input-field">
                 <select name="email_type" id="email_type">
@@ -88,5 +96,5 @@ $orders = wc_get_orders( $args );
         </div>
     </div>
 	<?php do_action( 'woo_preview_emails_addition_form_fields', $args, $orders ); ?>
-    <p style="text-align: left"><input type="submit" name="submit" value="<?php _e( 'Preview', 'woo-preview-emails' ) ?>" class="button button-primary"></p>
+    <p style="text-align: left"><input type="submit" name="submit" value="<?php esc_attr_e( 'Preview', 'woo-preview-emails' ) ?>" class="button button-primary"></p>
 </form>
